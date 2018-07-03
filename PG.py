@@ -1,6 +1,12 @@
+from os.path import exists
 import random
-j=1 #this is a counter that enables the script to display a welcoming message.
-#------------------------------------------------------------------------------------
+
+if not exists('password_generator.txt'):
+    file = open('password_generator.txt','w+')
+    file.truncate(0)
+    file.close()
+
+
 def view():
     file = open('password_generator.txt','r+')
     read = file.read()
@@ -14,23 +20,26 @@ Here are your passwords:
     else:
         print('No passwords were saved')
     file.close()
-#------------------------------------------------------------------------------------
+
+
+j=1 #counter
 while True:
+
     if j==1:
         print("""
 -----------------------------------------------
 Welcome to the Password Generator!""")
     else :
         print("""-----------------------------------------------""")
+
     print("""\t G : Generate a new password.
 \t N : Add a new password.
 \t V : View saved passwords.
-\t R : Repair the program.
 \t E : Exit.
 -----------------------------------------------""")
     a  = input('Your answer is:\n \t=>  ')
     answer = a.upper()
-#------------------------------------------------------------------------------------
+
     if answer == 'G':
         password = ''
 
@@ -59,9 +68,12 @@ Welcome to the Password Generator!""")
         else:
             a = 33
             b = 126
+
         for i in range(number_of_characters):
             password = password +  chr(random.randint(a,b))
+
         print(f"Please copy your password:\n \t=>  {password} \n ")
+
         yes_or_no = input('Should I save your password ?\n \t=>  ')
         if yes_or_no.upper() == 'YES':
             account = input('To which account is this password assigned ?\n \t=>  ')
@@ -72,6 +84,7 @@ Welcome to the Password Generator!""")
             else:
                 file.write('\n'+account+': '+password)
             file.close()
+
             view_my_passwords = input('Do you want to view your saved passwords ?\n \t=>  ')
             if view_my_passwords.upper() == 'YES':
                 view()
@@ -79,6 +92,7 @@ Welcome to the Password Generator!""")
 
     elif answer == 'V':
         view()
+
     elif answer == 'N':
         my_password = input("What's your password ?\n \t=>  ")
         account = input('To which account is this password assigned ?\n \t=>  ')
@@ -89,21 +103,14 @@ Welcome to the Password Generator!""")
         else:
             file.write('\n'+account+': '+my_password)
         file.close()
-    elif answer =='R':
-        print(' Warning!\n \tResetting the program will result in deleting saved passwords.')
-        verification = input('Should you wish to continue ?\n \t=>  ')
-        if verification.upper() == 'YES':
-            file = open('password_generator.txt','w+')
-            file.truncate(0)
-            file.close()
-            print('All saved passwords were deleted.')
-        elif verification.upper() =='NO':
-            print('No files were deleted.')
-        else:
-            print(" The program doesn't recognize your command.")
+        view_my_passwords = input('Do you want to view your saved passwords ?\n \t=>  ')
+        if view_my_passwords.upper() == 'YES':
+            view()
+
     elif answer =='E':
         print('Goodbye!')
         break
+
     else:
         print(" The program doesn't recognize your command.")
 
