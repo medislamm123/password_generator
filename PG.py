@@ -1,11 +1,13 @@
 from os.path import exists
 import random
 
-if not exists('password_generator.txt'):
+def reset():
     file = open('password_generator.txt','w+')
     file.truncate(0)
     file.close()
 
+if not exists('password_generator.txt'):
+    reset()
 
 def view():
     file = open('password_generator.txt','r+')
@@ -35,6 +37,7 @@ Welcome to the Password Generator!""")
     print("""\t G : Generate a new password.
 \t N : Add a new password.
 \t V : View saved passwords.
+\t D : Delete saved passwords.
 \t E : Exit.
 -----------------------------------------------""")
     a  = input('Your answer is:\n \t=>  ')
@@ -46,7 +49,10 @@ Welcome to the Password Generator!""")
         while True:
             try:
                 number_of_characters = int(input('N° of characters ?\n \t=>  '))
-                break
+                if number_of_characters in range(1,101):
+                    break
+                else:
+                    print('Your password should be between 1 and 100 characters.')
             except ValueError :
                 print('Please write an integer!')
 
@@ -110,6 +116,17 @@ Welcome to the Password Generator!""")
     elif answer =='E':
         print('Goodbye!')
         break
+
+    elif answer =='D':
+        print(' Warning!\n \tResetting the program will result in deleting saved passwords.')
+        verification = input('Should you wish to continue ?\n \t=>  ')
+        if verification.upper() == 'YES':
+            reset()
+            print('All saved passwords were deleted.')
+        elif verification.upper() =='NO':
+            print('No files were deleted.')
+        else:
+            print(" The program doesn't recognize your command.")
 
     else:
         print(" The program doesn't recognize your command.")
