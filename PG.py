@@ -1,16 +1,18 @@
-from os.path import exists
+import os.path
 import random
 
-def reset():
-    file = open('password_generator.txt','w+')
-    file.truncate(0)
-    file.close()
+folder = r'c:\PG'
+if not os.path.exists(folder):
+    os.makedirs(folder)
 
-if not exists('password_generator.txt'):
+def reset():
+    file = open(r'c:\PG\password_generator.txt','w+')
+    file.close()
+if not os.path.exists(r'c:\PG\password_generator.txt'):
     reset()
 
 def view():
-    file = open('password_generator.txt','r+')
+    file = open(r'c:\PG\password_generator.txt','r+')
     read = file.read()
     if read != '':
         print(f"""-----------------------------------------------
@@ -83,7 +85,7 @@ Welcome to the Password Generator!""")
         yes_or_no = input('Should I save your password ?\n \t=>  ')
         if yes_or_no.upper() == 'YES':
             account = input('To which account is this password assigned ?\n \t=>  ')
-            file = open('password_generator.txt','r+')
+            file = open(r'c:\PG\password_generator.txt','r+')
             saved= file.read()
             if saved =='':
                 file.write(account+': '+password)
@@ -102,7 +104,7 @@ Welcome to the Password Generator!""")
     elif answer == 'N':
         my_password = input("What's your password ?\n \t=>  ")
         account = input('To which account is this password assigned ?\n \t=>  ')
-        file = open('password_generator.txt','r+')
+        file = open(r'c:\PG\password_generator.txt','r+')
         saved= file.read()
         if saved =='':
             file.write(account+': '+my_password)
